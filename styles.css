@@ -12,6 +12,7 @@
   --green-muted: #5a8f7b;   /* Muted green */
   --white: #f9f9f9;         /* Off-white */
   --gray-light: #e0e0e0;    /* Light gray */
+  --font-family: 'Lora', serif;
 }
 
 /* Base Styles */
