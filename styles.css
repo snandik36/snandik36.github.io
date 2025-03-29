@@ -16,7 +16,7 @@
 
 /* Base Styles */
 body {
-  font-family: 'Comfortaa', monospace;
+  font-family: 'Comfortaa', serif;
   line-height: 1.6;
   color: #333;
   background-color: var(--white);
