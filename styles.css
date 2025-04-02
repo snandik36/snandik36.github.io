@@ -93,6 +93,10 @@ footer {
   color: var(--green-muted);
 }
 
+.form-group {
+      margin-bottom: 15px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   body {
