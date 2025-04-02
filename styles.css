@@ -61,9 +61,10 @@ a:hover {
   display: inline-block;
   background-color: var(--green-muted);
   color: white;
-  padding: 1.5rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   border-radius: 4px;
   transition: background-color 0.3s;
+  margin: 0.3rem 0.3rem;
 }
 
 .button:hover {
