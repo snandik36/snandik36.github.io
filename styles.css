@@ -34,7 +34,6 @@ header {
 }
 
 h1 {
-  text-align: center;
   font-size: 2.5rem;
   color: var(--purple-dark);
   margin-bottom: 0.5rem;
