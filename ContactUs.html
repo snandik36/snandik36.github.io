@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #4a2545; /* Deep purple */
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    textarea {
+      height: 150px;
+    }
+    button {
+      background-color: #5a8f7b; /* Muted green */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4a2545; /* Dark purple */
+    }
+    .required {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Contact Us</h1>
+  <form id="contactForm" action="mailto:surbhi.nandikolmath@co.rvu.edu" method="post" enctype="text/plain">
+    <div class="form-group">
+      <label for="name">Name <span class="required">*</span></label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email <span class="required">*</span></label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="message">Message <span class="required">*</span></label>
+      <textarea id="message" name="message" required></textarea>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
 
+  <script>
+    // Optional: Confirmation message after submission
+    document.getElementById('contactForm').addEventListener('submit', function() {
+      alert('Thank you! Your message has been sent.'); 
+    });
+  </script>
+</body>
+</html>
