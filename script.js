@@ -1,4 +1,4 @@
-const apiKey = "Xc4g6WAxuMwJ9wNwuYaIaLF3TpGeessIGuxQlE0y"; 
+const apiKey = "YOUR_REAL_API_KEY"; 
 
 document.getElementById("foodForm").addEventListener("submit", async function(event) {
   event.preventDefault();
@@ -11,7 +11,8 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
 
   try {
     const proxyUrl = "https://corsproxy.io/?";
-    const searchUrl = proxyUrl + encodeURIComponent(`https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=5&requireAllWords=false&api_key=${apiKey}`);
+    const baseUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=5&requireAllWords=false&api_key=${apiKey}`;
+    const searchUrl = proxyUrl + baseUrl;
 
     const searchResponse = await fetch(searchUrl);
     const searchData = await searchResponse.json();
@@ -21,12 +22,12 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
       return;
     }
 
-    // Clear previous results
+    // clear previous results
     resultDiv.innerHTML = "<h2>Top Matches:</h2>";
 
     for (let food of searchData.foods) {
       const fdcId = food.fdcId;
-      const detailsUrl = proxyUrl + encodeURIComponent(`https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${apiKey}`);
+      const detailsUrl = proxyUrl + `https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${apiKey}`;
       const detailsResponse = await fetch(detailsUrl);
       const foodDetails = await detailsResponse.json();
 
@@ -41,7 +42,6 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
           }
         }
       }
-
       if (protein === "Not found" && foodDetails.labelNutrients && foodDetails.labelNutrients.protein) {
         protein = `${foodDetails.labelNutrients.protein.value} g`;
       }
