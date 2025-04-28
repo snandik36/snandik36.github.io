@@ -21,23 +21,23 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
 });
 
 // Search for food using USDA API (properly with fdcId)
-async function searchFood(query) {
-  const searchUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=1&api_key=${apiKey}`;
+async function searchFoods(query) {
+  const searchUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=5&api_key=${apiKey}`;
+  console.log("Searching URL:", searchUrl); // Debug
 
   try {
-    const searchResponse = await fetch(searchUrl);
-    const searchData = await searchResponse.json();
-
-    if (searchData.foods && searchData.foods.length > 0) {
-      const fdcId = searchData.foods[0].fdcId;
-
-      // Now fetch full nutrient details
-      const foodUrl = `https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${apiKey}`;
-      const foodResponse = await fetch(foodUrl);
-      const foodData = await foodResponse.json();
-
-      return extractNutrients(foodData);
+    const response = await fetch(searchUrl);
+    if (!response.ok) {
+      console.error("HTTP Error:", response.status);
+      return null;
     }
+    const data = await response.json();
+    console.log("Food search data:", data); // Debug
+
+    if (data.foods && data.foods.length > 0) {
+      return data.foods; // Return array
+    }
+    console.warn("No foods found in USDA response");
     return null;
   } catch (error) {
     console.error("Error fetching food data:", error);
