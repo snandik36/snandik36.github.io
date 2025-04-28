@@ -1,4 +1,4 @@
-const apiKey = "YOUR_API_KEY_HERE"; // <-- Insert your USDA API key
+const apiKey = "Xc4g6WAxuMwJ9wNwuYaIaLF3TpGeessIGuxQlE0y"; // <-- Insert your USDA API key
 
 const prescribedDiet = {
   maxCarbs: 20,   // grams
