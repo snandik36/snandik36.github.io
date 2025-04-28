@@ -20,15 +20,23 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
   }
 });
 
-// Search for food using USDA API
+// Search for food using USDA API (properly with fdcId)
 async function searchFood(query) {
-  const url = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=1&api_key=${apiKey}`;
+  const searchUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=1&api_key=${apiKey}`;
+
   try {
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data.foods && data.foods.length > 0) {
-      const food = data.foods[0];
-      return extractNutrients(food);
+    const searchResponse = await fetch(searchUrl);
+    const searchData = await searchResponse.json();
+
+    if (searchData.foods && searchData.foods.length > 0) {
+      const fdcId = searchData.foods[0].fdcId;
+
+      // Now fetch full nutrient details
+      const foodUrl = `https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${apiKey}`;
+      const foodResponse = await fetch(foodUrl);
+      const foodData = await foodResponse.json();
+
+      return extractNutrients(foodData);
     }
     return null;
   } catch (error) {
