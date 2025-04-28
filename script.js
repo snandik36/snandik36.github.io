@@ -1,4 +1,4 @@
-const apiKey = "YOUR_REAL_API_KEY"; 
+const apiKey = "Xc4g6WAxuMwJ9wNwuYaIaLF3TpGeessIGuxQlE0y"; 
 
 document.getElementById("foodForm").addEventListener("submit", async function(event) {
   event.preventDefault();
