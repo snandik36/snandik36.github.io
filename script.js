@@ -1,4 +1,4 @@
-const apiKey = "YOUR_API_KEY_HERE"; // <-- put your USDA API key here
+const apiKey = "Xc4g6WAxuMwJ9wNwuYaIaLF3TpGeessIGuxQlE0y"; // <-- put your USDA API key here
 
 document.getElementById("foodForm").addEventListener("submit", async function(event) {
   event.preventDefault();
