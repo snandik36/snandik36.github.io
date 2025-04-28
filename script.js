@@ -45,6 +45,6 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
 
   } catch (error) {
     console.error("Error:", error);
-    resultDiv.textContent = "An error occurred.";
+    resultDiv.textContent = `Error: ${error.message}`;
   }
 });
