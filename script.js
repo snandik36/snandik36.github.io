@@ -31,6 +31,7 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
     // Step 3: Extract protein info safely
     let protein = "Not found";
 
+// First, try detailed nutrients
 if (foodDetails.foodNutrients && Array.isArray(foodDetails.foodNutrients)) {
   for (let nutrient of foodDetails.foodNutrients) {
     const name = (nutrient.nutrientName || "").toLowerCase();
@@ -39,6 +40,11 @@ if (foodDetails.foodNutrients && Array.isArray(foodDetails.foodNutrients)) {
       break;
     }
   }
+}
+
+// If still not found, try labelNutrients (for branded foods)
+if (protein === "Not found" && foodDetails.labelNutrients && foodDetails.labelNutrients.protein) {
+  protein = `${foodDetails.labelNutrients.protein.value} g`;
 }
 
 
