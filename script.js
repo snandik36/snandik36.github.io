@@ -1,6 +1,4 @@
-console.log("Script loaded!");
-
-const apiKey = "Xc4g6WAxuMwJ9wNwuYaIaLF3TpGeessIGuxQlE0y";
+const apiKey = "YOUR_API_KEY_HERE"; // <-- Insert your USDA API key
 
 const prescribedDiet = {
   maxCarbs: 20,   // grams
@@ -13,33 +11,23 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
   const query = document.getElementById("foodInput").value.trim();
   if (query === "") return;
 
-  const foodData = await searchFood(query);
-  if (foodData) {
-    const result = calculateFoodScore(foodData, prescribedDiet);
-    displayResult(result);
+  const foods = await searchFoods(query);
+  if (foods && foods.length > 0) {
+    displaySearchResults(foods);
   } else {
     displayResult({ name: query, finalScore: "N/A", grade: "Food not found" });
   }
 });
 
-// Search for food using USDA API (properly with fdcId)
+// Search USDA API for multiple foods
 async function searchFoods(query) {
   const searchUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=5&api_key=${apiKey}`;
-  console.log("Searching URL:", searchUrl); // Debug
-
   try {
     const response = await fetch(searchUrl);
-    if (!response.ok) {
-      console.error("HTTP Error:", response.status);
-      return null;
-    }
     const data = await response.json();
-    console.log("Food search data:", data); // Debug
-
     if (data.foods && data.foods.length > 0) {
-      return data.foods; // Return array
+      return data.foods; // array of top 5 foods
     }
-    console.warn("No foods found in USDA response");
     return null;
   } catch (error) {
     console.error("Error fetching food data:", error);
@@ -47,7 +35,24 @@ async function searchFoods(query) {
   }
 }
 
-// Extract needed nutrients
+// When user clicks a food, fetch full nutrients and grade it
+async function selectFood(fdcId, description) {
+  const foodUrl = `https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${apiKey}`;
+  try {
+    const foodResponse = await fetch(foodUrl);
+    const foodData = await foodResponse.json();
+
+    const foodNutrients = extractNutrients(foodData);
+    if (foodNutrients) {
+      const result = calculateFoodScore(foodNutrients, prescribedDiet);
+      displayResult(result);
+    }
+  } catch (error) {
+    console.error("Error fetching selected food:", error);
+  }
+}
+
+// Extract nutrients we care about
 function extractNutrients(food) {
   let nutrients = {
     name: food.description,
@@ -70,7 +75,7 @@ function extractNutrients(food) {
   return nutrients;
 }
 
-// Calculate the food score
+// Calculate score
 function calculateSubScore(actual, target, type = "max") {
   if (type === "max") {
     return actual <= target ? 100 : Math.max(0, 100 - ((actual - target) / target) * 100);
@@ -102,7 +107,25 @@ function calculateFoodScore(food, diet) {
   };
 }
 
-// Display result in HTML
+// Display the top search results
+function displaySearchResults(foods) {
+  const searchResultsDiv = document.getElementById("searchResults");
+  searchResultsDiv.innerHTML = "<h2>Select a food:</h2>";
+
+  foods.forEach(food => {
+    const foodBtn = document.createElement("button");
+    foodBtn.textContent = food.description;
+    foodBtn.style.display = "block";
+    foodBtn.style.margin = "5px";
+    foodBtn.onclick = () => selectFood(food.fdcId, food.description);
+    searchResultsDiv.appendChild(foodBtn);
+  });
+
+  // Clear previous result
+  document.getElementById("result").innerHTML = "";
+}
+
+// Show final grade
 function displayResult(result) {
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `
@@ -110,4 +133,7 @@ function displayResult(result) {
     <p>Score: ${result.finalScore}</p>
     <p>Grade: <strong>${result.grade}</strong></p>
   `;
+
+  // Clear search results after selection
+  document.getElementById("searchResults").innerHTML = "";
 }
