@@ -33,18 +33,23 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
 
       // Find protein
       let protein = "Not found";
+      // First check foodNutrients
       if (foodDetails.foodNutrients && Array.isArray(foodDetails.foodNutrients)) {
         for (let nutrient of foodDetails.foodNutrients) {
           const name = (nutrient.nutrientName || "").toLowerCase();
           if (name.includes("protein")) {
-            protein = `${nutrient.value} ${nutrient.unitName}`;
+            protein = `${nutrient.value} ${nutrient.unitName || "g"}`;
             break;
           }
         }
       }
-      if (protein === "Not found" && foodDetails.labelNutrients && foodDetails.labelNutrients.protein) {
-        protein = `${foodDetails.labelNutrients.protein.value} g`;
+      // If still not found, check labelNutrients
+      if (protein === "Not found" && foodDetails.labelNutrients) {
+        if (foodDetails.labelNutrients.protein && typeof foodDetails.labelNutrients.protein.value !== "undefined") {
+          protein = `${foodDetails.labelNutrients.protein.value} g`;
+        }
       }
+
 
       // Append result
       const foodItem = document.createElement("div");
