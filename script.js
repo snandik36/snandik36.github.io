@@ -11,7 +11,7 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
 
   try {
     // Step 1: Search for the food
-    const searchUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=1&api_key=${apiKey}`;
+    const searchUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=1&requireAllWords=false&api_key=${apiKey}`;
     const searchResponse = await fetch(searchUrl);
     const searchData = await searchResponse.json();
 
