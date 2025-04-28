@@ -48,7 +48,11 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
 
       // Append result
       const foodItem = document.createElement("div");
-      foodItem.innerHTML = `<p><strong>${foodDetails.description}</strong>: ${protein} protein</p>`;
+      let title = foodDetails.description || "Unnamed Food";
+      if (foodDetails.brandName) {
+        title = `${foodDetails.brandName} - ${title}`;
+      }
+      foodItem.innerHTML = `<p><strong>${title}</strong>: ${protein} protein</p>`;
       resultDiv.appendChild(foodItem);
     }
 
