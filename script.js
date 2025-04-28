@@ -44,7 +44,8 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
     `;
 
   } catch (error) {
-    console.error("Error:", error);
-    resultDiv.textContent = `Error: ${error.message}`;
-  }
+  console.error("Error occurred:", error);
+  resultDiv.textContent = `Error: ${error.message}`;
+}
+
 });
