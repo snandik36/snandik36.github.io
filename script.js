@@ -29,11 +29,12 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
     const foodDetails = await detailsResponse.json();
 
     // Step 3: Extract protein info safely
-let protein = "Not found";
+    let protein = "Not found";
 
 if (foodDetails.foodNutrients && Array.isArray(foodDetails.foodNutrients)) {
   for (let nutrient of foodDetails.foodNutrients) {
-    if (nutrient.nutrientName && nutrient.nutrientName.toLowerCase().includes("protein")) {
+    const name = (nutrient.nutrientName || "").toLowerCase();
+    if (name.includes("protein")) {
       protein = `${nutrient.value} ${nutrient.unitName}`;
       break;
     }
