@@ -28,14 +28,18 @@ document.getElementById("foodForm").addEventListener("submit", async function(ev
     const detailsResponse = await fetch(detailsUrl);
     const foodDetails = await detailsResponse.json();
 
-    // Step 3: Extract protein info
-    let protein = "Not found";
-    for (let nutrient of foodDetails.foodNutrients) {
-      if (nutrient.nutrientName.toLowerCase().includes("protein")) {
-        protein = `${nutrient.value} ${nutrient.unitName}`;
-        break;
-      }
+    // Step 3: Extract protein info safely
+let protein = "Not found";
+
+if (foodDetails.foodNutrients && Array.isArray(foodDetails.foodNutrients)) {
+  for (let nutrient of foodDetails.foodNutrients) {
+    if (nutrient.nutrientName && nutrient.nutrientName.toLowerCase().includes("protein")) {
+      protein = `${nutrient.value} ${nutrient.unitName}`;
+      break;
     }
+  }
+}
+
 
     resultDiv.innerHTML = `
       <h2>Result:</h2>
