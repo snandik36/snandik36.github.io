@@ -1,3 +1,5 @@
+console.log("Script loaded!");
+
 const apiKey = "Xc4g6WAxuMwJ9wNwuYaIaLF3TpGeessIGuxQlE0y";
 
 const prescribedDiet = {
